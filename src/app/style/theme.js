@@ -27,12 +27,12 @@ const deviceSizes = {
 };
 
 const colors = {
-  primary: "#3C3C95",
-  secondary: "#E17BAE",
-  textColor: "#3b3b3b",
-  secondaryTextColor: "#9F99A8",
-  grayColor: "#F5F6F8",
-  grayColor2: "#F5F6F8"
+  primary: '#3C3C95',
+  secondary: '#E17BAE',
+  textColor: '#3b3b3b',
+  secondaryTextColor: '#9F99A8',
+  grayColor: '#F5F6F8',
+  grayColor2: '#F5F6F8',
 };
 
 const device = {
@@ -45,7 +45,6 @@ const device = {
   desktop2: `(max-width : ${deviceSizes.desktop2}px)`,
   desktop: `(max-width : ${deviceSizes.desktop}px)`,
 };
-
 
 const theme = {
   fontSizes,
