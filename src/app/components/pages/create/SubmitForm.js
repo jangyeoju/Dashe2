@@ -84,7 +84,6 @@ export default function SubmitForm() {
               </h2>
               <input
                 type="text"
-                id="keywordInput"
                 placeholder="원하는 컨셉을 문장으로 표현해주세요"
                 {...register('description', {
                   required: {
@@ -95,64 +94,46 @@ export default function SubmitForm() {
               />
               <FormErrorMessage name="description" />
             </div>
-            <div id={'concept'}>
+            <div>
               <h2>
                 원하는 디자인 컨셉 이미지를 선택해주세요. <span>* 필수</span>
               </h2>
               <div className="checkbox-wrap2">
-                <input
-                  type="radio"
-                  id="concept1"
-                  value="실사"
-                  {...register('concept')}
-                />
-                <label htmlFor="concept1">
+                <label>
+                  <input type="radio" value="실사" {...register('concept')} />
                   <div className="concept-img" id="concept-img1"></div>
                   <h3>실사 이미지</h3>
                 </label>
-                <input
-                  type="radio"
-                  id="concept2"
-                  value="일러스트"
-                  {...register('concept')}
-                />
-
-                <label htmlFor="concept2">
+                <label>
+                  <input
+                    type="radio"
+                    value="일러스트"
+                    {...register('concept')}
+                  />
                   <div className="concept-img" id="concept-img2"></div>
                   <h3>일러스트 이미지</h3>
                 </label>
-                <input
-                  type="radio"
-                  id="concept3"
-                  value="3D"
-                  {...register('concept')}
-                />
-                <label htmlFor="concept3">
+                <label>
+                  <input type="radio" value="3D" {...register('concept')} />
                   <div className="concept-img" id="concept-img3"></div>
                   <h3>3D 이미지</h3>
                 </label>
-                <input
-                  type="radio"
-                  id="concept4"
-                  value="아이콘"
-                  {...register('concept')}
-                />
-                <label htmlFor="concept4">
+                <label>
+                  <input type="radio" value="아이콘" {...register('concept')} />
                   <div className="concept-img" id="concept-img4"></div>
                   <h3>아이콘 이미지</h3>
                 </label>
-                <input
-                  type="radio"
-                  id="concept5"
-                  value="라인"
-                  {...register('concept', {
-                    required: {
-                      value: true,
-                      message: '이미지를 선택해주세요',
-                    },
-                  })}
-                />
-                <label htmlFor="concept5">
+                <label>
+                  <input
+                    type="radio"
+                    value="라인"
+                    {...register('concept', {
+                      required: {
+                        value: true,
+                        message: '이미지를 선택해주세요',
+                      },
+                    })}
+                  />
                   <div className="concept-img" id="concept-img5"></div>
                   <h3>라인 이미지</h3>
                 </label>
@@ -164,7 +145,6 @@ export default function SubmitForm() {
               <input
                 ref={imageInputRef}
                 type="file"
-                id="imageUpload"
                 accept="image/*"
                 onChange={(e) => {
                   setImage(e.target.files?.[0]);
@@ -178,7 +158,6 @@ export default function SubmitForm() {
               <div className="color-wrap">
                 <input
                   type="text"
-                  id="colorInput"
                   placeholder="Ex) #000000"
                   {...register('color', {
                     required: {
@@ -195,45 +174,50 @@ export default function SubmitForm() {
                 이미지 생성이 필요한 채널을 선택해주세요. <span>* 필수</span>
               </h2>
               <div className="checkbox-wrap">
-                <input
-                  type="checkbox"
-                  id="youtube"
-                  value="YouTube"
-                  {...register('socialMedia')}
-                />
-                <label htmlFor="youtube">YouTube</label>
-                <input
-                  type="checkbox"
-                  id="instagram"
-                  value="Instagram"
-                  {...register('socialMedia')}
-                />
-                <label htmlFor="instagram">Instagram</label>
-                <input
-                  type="checkbox"
-                  id="facebook"
-                  value="Facebook"
-                  {...register('socialMedia')}
-                />
-                <label htmlFor="facebook">Facebook</label>
-                <input
-                  type="checkbox"
-                  id="LinkedIn"
-                  value="LinkedIn"
-                  {...register('socialMedia')}
-                />
-                <label htmlFor="LinkedIn">LinkedIn</label>
-                <input
-                  type="checkbox"
-                  id="naverBlog"
-                  value="Naver Blog"
-                  {...register('socialMedia', {
-                    validate: (selectedMedia) =>
-                      selectedMedia.length > 0 ||
-                      '최소 한 개 이상의 채널을 선택해 주세요',
-                  })}
-                />
-                <label htmlFor="naverBlog">Naver Blog</label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="YouTube"
+                    {...register('socialMedia')}
+                  />
+                  YouTube
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Instagram"
+                    {...register('socialMedia')}
+                  />
+                  Instagram
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Facebook"
+                    {...register('socialMedia')}
+                  />
+                  Facebook
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="LinkedIn"
+                    {...register('socialMedia')}
+                  />
+                  LinkedIn
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Naver Blog"
+                    {...register('socialMedia', {
+                      validate: (selectedMedia) =>
+                        selectedMedia.length > 0 ||
+                        '최소 한 개 이상의 채널을 선택해 주세요',
+                    })}
+                  />
+                  Naver Blog
+                </label>
               </div>
               <FormErrorMessage name="socialMedia" />
             </div>
@@ -326,61 +310,38 @@ const CreateWrap = styled(Box)`
   input[type='file'] {
     background-color: #fff;
   }
-  input[type='checkbox'] {
-    margin: 0;
+  input[type='checkbox'],
+  input[type='radio'] {
     appearance: none;
-  }
-  input[type='checkbox'] + label {
-    /* background-color: #fff; */
-    border: 1px solid #ec34a3;
-    color: #ec34a3;
-    padding: 1rem 2rem;
-    cursor: pointer;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 4px;
-    transition: all 0.3s ease-in-out;
-  }
-  input[type='checkbox']:checked + label {
-    background-color: #ec34a3;
-    color: #fff;
+    margin: 0;
   }
 
-  input[type='radio'] {
-    margin: 0;
-    appearance: none;
-  }
-  input[type='radio'] + label {
-    /* background-color: #fff; */
-    border: 1px solid #ec34a3;
-    color: #ec34a3;
-    padding: 1rem 2rem;
-    cursor: pointer;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 4px;
-    transition: all 0.3s ease-in-out;
-  }
-  input[type='radio'] + label:last-of-type {
-    margin: 0;
-  }
-  input[type='radio']:checked + label {
-    background-color: #ec34a3;
-    color: #fff;
-  }
   label {
-    margin-right: 20px;
     font-size: 16px;
   }
 
   .checkbox-wrap2 {
     margin-top: 2rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     align-items: flex-start;
     justify-content: space-between;
+    row-gap: 10px;
+    column-gap: 15px;
     label {
-      width: 19%;
-      padding: 1rem !important;
+      border: 1px solid #ec34a3;
+      color: #ec34a3;
+      padding: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      display: inline-block;
+      transition: all 0.3s ease-in-out;
+
+      &:has(input:checked) {
+        background-color: #ec34a3;
+        color: #fff;
+      }
+
       .concept-img {
         background-repeat: no-repeat;
         background-size: cover;
@@ -411,7 +372,26 @@ const CreateWrap = styled(Box)`
     }
   }
   .checkbox-wrap {
+    display: flex;
     margin-top: 20px;
+    gap: 10px;
+
+    label {
+      border: 1px solid #ec34a3;
+      color: #ec34a3;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease-in-out;
+
+      &:has(input:checked) {
+        background-color: #ec34a3;
+        color: #fff;
+      }
+    }
   }
   .concept-img {
     height: 15rem;
@@ -474,7 +454,6 @@ const CreateWrap = styled(Box)`
     .checkbox-wrap2 {
       flex-wrap: wrap;
       label {
-        width: 49%;
         margin: 0;
         .concept-img {
           height: 20rem;
@@ -482,14 +461,10 @@ const CreateWrap = styled(Box)`
       }
     }
     .checkbox-wrap {
-      flex-wrap: wrap;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     }
     input[type='checkbox'] + label {
-      width: 49%;
-      margin: 0 0 1rem 0;
       display: flex;
       align-items: center;
       justify-content: center;
