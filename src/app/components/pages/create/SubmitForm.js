@@ -7,6 +7,7 @@ import theme from '@/app/style/theme';
 import { ErrorMessage } from '@hookform/error-message';
 import { useEdgeStore } from '@/lib/edgestore';
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const defaultValues = {
   description: '',
@@ -40,7 +41,10 @@ export default function SubmitForm() {
         data.socialMedia.join(', '),
         imageUrl,
       ]);
+      toast.success('요청사항이 전송되었습니다.');
       resetFields();
+    } catch (e) {
+      toast.error('전송에 실패하였습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setIsSubmitting(false);
     }
