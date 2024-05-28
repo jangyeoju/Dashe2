@@ -5,7 +5,7 @@ import { createTheme, Divider, Icon, ThemeProvider } from '@mui/material';
 import styled from '@emotion/styled';
 import theme from '../../style/theme';
 
-export default function FilledBtn({ text, link }) {
+export default function FilledBtn({ text, link, ...props }) {
   const theme = createTheme({
     typography: {
       fontFamily: 'Montserrat',
@@ -20,7 +20,7 @@ export default function FilledBtn({ text, link }) {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <SolidBtnBox variant="contained" href={link}>
+        <SolidBtnBox variant="contained" href={link} {...props}>
           {text}
         </SolidBtnBox>
       </ThemeProvider>
