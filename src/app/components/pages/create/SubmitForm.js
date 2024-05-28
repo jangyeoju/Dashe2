@@ -8,33 +8,58 @@ import { ErrorMessage } from '@hookform/error-message';
 import { useEdgeStore } from '@/lib/edgestore';
 import { useState } from 'react';
 
+const defaultValues = {
+  description: '',
+  concept: undefined,
+  color: null,
+  socialMedia: [],
+  email: null,
+};
 export default function SubmitForm() {
   const form = useForm({
-    defaultValues: {
-      description: '',
-      concept: undefined,
-      image: null,
-      color: null,
-      socialMedia: [],
-      email: null,
-    },
+    defaultValues,
   });
 
-  const { register, handleSubmit, setValue } = form;
+  const { register, handleSubmit, reset } = form;
 
   const [image, setImage] = useState();
   const { edgestore } = useEdgeStore();
 
   async function onSubmitForm(data) {
-    image && setValue('image', await uploadImage(image));
-    console.log(data);
+    const imageUrl = image ? await uploadImage(image) : null;
+
+    await sendToGoogleSheet([
+      data.email,
+      data.description,
+      data.concept,
+      data.color,
+      data.socialMedia.join(', '),
+      imageUrl,
+    ]);
+
+    resetFields();
   }
 
   async function uploadImage(file) {
     const response = await edgestore.publicFiles.upload({
       file,
     });
-    return response.accessUrl;
+    return response.url;
+  }
+
+  function sendToGoogleSheet(values) {
+    return fetch('/api/spreadsheet', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+  }
+
+  function resetFields() {
+    reset(defaultValues);
+    setImage(undefined);
   }
 
   return (
