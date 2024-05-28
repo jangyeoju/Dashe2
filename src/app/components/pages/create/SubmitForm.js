@@ -6,7 +6,7 @@ import ContainerBox from '@/app/components/layout/ContainerBox';
 import theme from '@/app/style/theme';
 import { ErrorMessage } from '@hookform/error-message';
 import { useEdgeStore } from '@/lib/edgestore';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const defaultValues = {
   description: '',
@@ -22,22 +22,28 @@ export default function SubmitForm() {
 
   const { register, handleSubmit, reset } = form;
 
+  const imageInputRef = useRef(null);
   const [image, setImage] = useState();
   const { edgestore } = useEdgeStore();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   async function onSubmitForm(data) {
-    const imageUrl = image ? await uploadImage(image) : null;
+    setIsSubmitting(true);
 
-    await sendToGoogleSheet([
-      data.email,
-      data.description,
-      data.concept,
-      data.color,
-      data.socialMedia.join(', '),
-      imageUrl,
-    ]);
-
-    resetFields();
+    try {
+      const imageUrl = image ? await uploadImage(image) : null;
+      await sendToGoogleSheet([
+        data.email,
+        data.description,
+        data.concept,
+        data.color,
+        data.socialMedia.join(', '),
+        imageUrl,
+      ]);
+      resetFields();
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   async function uploadImage(file) {
@@ -59,6 +65,7 @@ export default function SubmitForm() {
 
   function resetFields() {
     reset(defaultValues);
+    imageInputRef.current.value = null;
     setImage(undefined);
   }
 
@@ -151,6 +158,7 @@ export default function SubmitForm() {
             <div>
               <h2>원하는 컨셉의 이미지를 업로드 해주세요.</h2>
               <input
+                ref={imageInputRef}
                 type="file"
                 id="imageUpload"
                 accept="image/*"
@@ -248,6 +256,7 @@ export default function SubmitForm() {
           </form>
           <div className="center">
             <FilledBtn
+              loading={isSubmitting}
               type="button"
               text="Create Image"
               onClick={handleSubmit(onSubmitForm)}
