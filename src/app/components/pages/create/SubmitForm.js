@@ -92,7 +92,7 @@ export default function SubmitForm() {
                 <input
                   type="radio"
                   id="concept1"
-                  value="concept1"
+                  value="실사"
                   {...register('concept')}
                 />
                 <label htmlFor="concept1">
@@ -102,7 +102,7 @@ export default function SubmitForm() {
                 <input
                   type="radio"
                   id="concept2"
-                  value="concept2"
+                  value="일러스트"
                   {...register('concept')}
                 />
 
@@ -113,7 +113,7 @@ export default function SubmitForm() {
                 <input
                   type="radio"
                   id="concept3"
-                  value="concept3"
+                  value="3D"
                   {...register('concept')}
                 />
                 <label htmlFor="concept3">
@@ -123,7 +123,7 @@ export default function SubmitForm() {
                 <input
                   type="radio"
                   id="concept4"
-                  value="concept4"
+                  value="아이콘"
                   {...register('concept')}
                 />
                 <label htmlFor="concept4">
@@ -133,7 +133,7 @@ export default function SubmitForm() {
                 <input
                   type="radio"
                   id="concept5"
-                  value="concept5"
+                  value="라인"
                   {...register('concept', {
                     required: {
                       value: true,
