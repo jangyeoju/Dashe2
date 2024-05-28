@@ -5,6 +5,8 @@ import { Box } from '@mui/material';
 import ContainerBox from '@/app/components/layout/ContainerBox';
 import theme from '@/app/style/theme';
 import { ErrorMessage } from '@hookform/error-message';
+import { useEdgeStore } from '@/lib/edgestore';
+import { useState } from 'react';
 
 export default function SubmitForm() {
   const form = useForm({
@@ -18,7 +20,22 @@ export default function SubmitForm() {
     },
   });
 
-  const { register, handleSubmit } = form;
+  const { register, handleSubmit, setValue } = form;
+
+  const [image, setImage] = useState();
+  const { edgestore } = useEdgeStore();
+
+  async function onSubmitForm(data) {
+    image && setValue('image', await uploadImage(image));
+    console.log(data);
+  }
+
+  async function uploadImage(file) {
+    const response = await edgestore.publicFiles.upload({
+      file,
+    });
+    return response.accessUrl;
+  }
 
   return (
     <CreateWrap>
@@ -108,7 +125,14 @@ export default function SubmitForm() {
             </div>
             <div>
               <h2>원하는 컨셉의 이미지를 업로드 해주세요.</h2>
-              <input type="file" id="imageUpload" accept="image/*" />
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                onChange={(e) => {
+                  setImage(e.target.files?.[0]);
+                }}
+              />
             </div>
             <div>
               <h2>
@@ -201,9 +225,7 @@ export default function SubmitForm() {
             <FilledBtn
               type="button"
               text="Create Image"
-              onClick={handleSubmit((data) => {
-                console.log(data);
-              })}
+              onClick={handleSubmit(onSubmitForm)}
             />
           </div>
         </FormProvider>
