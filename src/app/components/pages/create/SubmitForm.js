@@ -8,15 +8,19 @@ import { ErrorMessage } from '@hookform/error-message';
 import { useEdgeStore } from '@/lib/edgestore';
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const defaultValues = {
   description: '',
   concept: undefined,
   color: null,
   socialMedia: [],
+  name: null,
+  company: null,
   email: null,
 };
 export default function SubmitForm() {
+  const router = useRouter();
   const form = useForm({
     defaultValues,
   });
@@ -34,6 +38,8 @@ export default function SubmitForm() {
     try {
       const imageUrl = image ? await uploadImage(image) : null;
       await sendToGoogleSheet([
+        data.name,
+        data.company,
         data.email,
         data.description,
         data.concept,
@@ -41,8 +47,7 @@ export default function SubmitForm() {
         data.socialMedia.join(', '),
         imageUrl,
       ]);
-      toast.success('요청사항이 전송되었습니다.');
-      resetFields();
+      router.push('/result');
     } catch (e) {
       toast.error('전송에 실패하였습니다. 잠시 후 다시 시도해주세요.');
     } finally {
@@ -65,12 +70,6 @@ export default function SubmitForm() {
       },
       body: JSON.stringify(values),
     });
-  }
-
-  function resetFields() {
-    reset(defaultValues);
-    imageInputRef.current.value = null;
-    setImage(undefined);
   }
 
   return (
@@ -223,11 +222,43 @@ export default function SubmitForm() {
             </div>
             <div>
               <h2>
-                결과물을 받을 이메일 주소를 입력해주세요1. <span>* 필수</span>
+                이름. <span>* 필수</span>
+              </h2>
+              <input
+                type="text"
+                placeholder="ex) 홍길동"
+                {...register('name', {
+                  required: {
+                    value: true,
+                    message: '이름을 입력해주세요.',
+                  },
+                })}
+              />
+              <FormErrorMessage name="name" />
+            </div>
+            <div>
+              <h2>
+                회사. <span>* 필수</span>
+              </h2>
+              <input
+                type="text"
+                placeholder="ex) 네이버"
+                {...register('company', {
+                  required: {
+                    value: true,
+                    message: '회사를 입력해주세요.',
+                  },
+                })}
+              />
+              <FormErrorMessage name="company" />
+            </div>
+            <div>
+              <h2>
+                이메일 <span>* 필수</span>
               </h2>
               <input
                 type="email"
-                placeholder="email@naver.com"
+                placeholder="ex) email@naver.com"
                 {...register('email', {
                   required: {
                     value: true,
