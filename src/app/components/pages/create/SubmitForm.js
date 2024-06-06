@@ -345,6 +345,7 @@ const CreateWrap = styled(Box)`
   input[type='radio'] {
     appearance: none;
     margin: 0;
+    padding: 0;
   }
 
   label {
